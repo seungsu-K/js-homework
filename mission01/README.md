@@ -1,21 +1,29 @@
-# MISSION 01
+# MISSION - 1
 
-## 문제 1
-
-객체에서 특정 키의 값을 안전하게 가져오는 함수를 작성하세요.
-
-풀이 : hasOwnProperty 메서드를 빌려와 전달된 인수(객체)에 키가 있는지 확인
-=> 있다면 (참) 키 값을 return
-=> 없다면 (거짓) Error를 return
+일치하는 아이디와 비밀번호를 입력했을 경우 welcome 페이지로 이동하는 코드 로직
 
 ---
 
-## 문제 2
+1. email 정규표현식을 사용한 validation
+   emailReg 함수를 사용
 
-배열에서 특정 인덱스의 값을 안전하게 가져오는 함수를 작성하세요.
+- false면 해당 input에 is-invalid 추가 및 안내 메세지의 display = block으로 변경
 
-풀이 : Array.isArray 메서드 인수로 전달된 arr가 배열인지 확인
-=> 다만, 부정 연산자를 사용해 배열이 아닐 경우(참) Error를 return
-=> 배열일 경우(거짓) 인수로 전달된 인덱스가 유효한 값인지 확인
-=> 유효할 경우(참) 값을 return
-=> 유효하지 않을 경우(거짓) Error를 return
+- true면 해당 input에 is--invalid 제거 및 안내 메세지의 display = none으로 변경
+
+2. pw 정규표현식을 사용한 validation
+   pwReg 함수를 사용
+
+- false면 해당 input에 is--invalid 추가 및 안내 메세지의 display = block으로 변경
+
+- true면 해당 input에 is--invalid 제거 제거 및 안내 메세지의 display = none으로 변경
+
+3. 로그인 버튼을 클릭시 user.id의 값과 input의 값을 비교
+   value === user.id
+   <br>
+4. 로그인 버튼을 클릭시 user.pw의 값과 input의 값을 비교
+   value === user.pw
+   <br>
+
+5. 두 값이 일치 한다면 다음 페이지(welcome.html)로 이동
+   window.location.href = 'welcome.html'

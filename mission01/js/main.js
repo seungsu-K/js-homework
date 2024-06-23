@@ -1,55 +1,60 @@
-//  1. 객체에서 특정 키의 값을 안전하게 가져오는 함수를 작성하세요.
+// 아이디 & 비밀번호 validation 함수
 
-// 객체와 키를 인수로 받아, 객체에 해당 키가 존재하면 그 키에 해당하는 값을 반환하고,
-// 존재하지 않으면 에러를 발생시키는 함수를 작성하세요.
+function emailReg(text) {
+  const re =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-function getValueAtObject(obj, key) {
-  if (Object.prototype.hasOwnProperty.call(obj, key)) {
-    return obj[key];
+  return re.test(String(text).toLowerCase());
+}
+
+function pwReg(text) {
+  const re = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{6,16}$/;
+  return re.test(String(text).toLowerCase());
+}
+
+// 아이디 & 비밀번호
+
+const user = {
+  id: 'asd@naver.com',
+  pw: 'spdlqj123!@',
+};
+
+// getNode 함수
+
+function getNode(node, context = document) {
+  if (context.nodeType !== 9) context = document.querySelector(context);
+
+  return context.querySelector(node);
+}
+
+// 로그인 버튼 클릭 이벤트
+
+function handleClick() {
+  const userId = getNode('#userEmail');
+  const userPw = getNode('#userPassword');
+
+  if (!emailReg(userId.value)) {
+    userId.classList.add('is-invalid');
+    getNode('.user-email>span').style.display = 'block';
   } else {
-    return new Error('존재하는 키 값을 입력해 주세요!');
+    userId.classList.remove('is-invalid');
+    getNode('.user-email>span').style.display = 'none';
+  }
+
+  if (!pwReg(userPw.value)) {
+    userPw.classList.add('is-invalid');
+    getNode('.user-password>span').style.display = 'block';
+  } else {
+    userPw.classList.remove('is-invalid');
+    getNode('.user-password>span').style.display = 'none';
+  }
+
+  if (userId.value === user.id && userPw.value === user.pw) {
+    return (window.location.href = 'welcome.html');
   }
 }
 
-const person = {
-  name: 'Alice',
-  age: 25,
-  city: 'Wonderland',
-};
+// 이벤트 실행
 
-console.log(getValueAtObject(person, 'name')); // 'Alice'
-console.log(getValueAtObject(person, 'age')); // 25
-console.log(getValueAtObject(person, 'city')); // 'Wonderland'
-console.log(getValueAtObject(person, 'country')); // Error !
-
-//
-// 2. 배열에서 특정 인덱스의 값을 안전하게 가져오는 함수를 작성하세요.
-
-// 배열과 인덱스를 인수로 받아,
-// 인덱스가 배열의 유효한 범위 내에 있으면 그 인덱스에 해당하는 값을 반환하고,
-// 유효하지 않은 인덱스일 경우 에러 메시지를 반환하는 함수를 작성하세요.
-
-function getNumberAtArray(arr, index) {
-  // if (!Array.isArray(arr)) return new Error('인수가 배열이 아닙니다!');
-
-  // if (index < arr.length && index >= 0) {
-  //   return arr[index];
-  // } else {
-  //   return new Error('유효한 index값을 입력해 주세요!');
-  // }
-
-  return !Array.isArray(arr)
-    ? new Error('인수가 배열이 아닙니다!')
-    : index < arr.length && index >= 0
-    ? arr[index]
-    : new Error('유효한 index값을 입력해 주세요!');
-}
-
-const numbers = [10, 20, 30, 40, 50];
-const text = 'text';
-
-console.log(getNumberAtArray(numbers, 2)); // 30
-console.log(getNumberAtArray(numbers, 4)); // 50
-console.log(getNumberAtArray(numbers, 5)); // Error!
-console.log(getNumberAtArray(numbers, -1)); // Error!
-console.log(getNumberAtArray(text, 1)); // Error!
+const button = getNode('.btn-login');
+button.addEventListener('click', handleClick);
